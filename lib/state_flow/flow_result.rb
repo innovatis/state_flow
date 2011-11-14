@@ -14,7 +14,7 @@ class StateFlow::FlowResult
   end
 
   def [](state)
-    @state_info[state]
+    publicized_state_info[state]
   end
 
   def state
@@ -36,7 +36,7 @@ class StateFlow::FlowResult
   private
 
   def publicized_state_info
-    @state_info.inject({}) do |acc, (state, result)|
+    @publicized_state_info ||= @state_info.inject({}) do |acc, (state, result)|
       acc[state.name] = result
       acc
     end

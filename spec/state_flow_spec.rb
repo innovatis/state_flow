@@ -242,6 +242,11 @@ describe StateFlow do
       klass.flow(object).state_path.should == [:a, :b, :c]
     end
 
+    it 'can look up the result for a state' do
+      object = stub(:b_requirement => true, :c_requirement => true)
+      klass.flow(object)[:b].visited?.should be_true
+    end
+
     it 'can iterate over the states' do
       object = stub(:b_requirement => false, :c_requirement => false)
       klass.flow(object).map{|k,v|[v.current, k]}.

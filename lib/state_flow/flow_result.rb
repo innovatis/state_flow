@@ -13,6 +13,10 @@ class StateFlow::FlowResult
     @state_info[state_object].current = true
   end
 
+  def [](state)
+    @state_info[state]
+  end
+
   def state
     state_object.name
   end

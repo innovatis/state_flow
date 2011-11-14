@@ -244,7 +244,7 @@ describe StateFlow do
 
     it 'can iterate over the states' do
       object = stub(:b_requirement => false, :c_requirement => false)
-      klass.flow(object).map{|k,v|[v.current, k.name]}.
+      klass.flow(object).map{|k,v|[v.current, k]}.
         should == [[true, :a], [false, :b], [false, :c]]
     end
 

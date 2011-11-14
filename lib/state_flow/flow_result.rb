@@ -22,7 +22,7 @@ class StateFlow::FlowResult
   end
 
   def each(&block)
-    @state_info.each(&block)
+    publicized_state_info.each(&block)
   end
 
   def state_path
@@ -30,6 +30,13 @@ class StateFlow::FlowResult
   end
 
   private
+
+  def publicized_state_info
+    @state_info.inject({}) do |acc, (state, result)|
+      acc[state.name] = result
+      acc
+    end
+  end
 
   def state_path_objects(visited = [@flow.initial_state])
     return @state_path if @state_path

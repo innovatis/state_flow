@@ -1,3 +1,5 @@
+require 'active_support/core_ext/object/try'
+
 class StateFlow::FieldValidator
   EMPTY_THINGS = ["", [], {}]
 
@@ -20,7 +22,7 @@ class StateFlow::FieldValidator
       key = field.keys.first
       apply_field(apply_field(object, key), field[key])
     else
-      object.send(field)
+      object.try(field)
     end
   end
 end

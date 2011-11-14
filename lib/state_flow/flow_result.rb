@@ -33,6 +33,14 @@ class StateFlow::FlowResult
     state_path_objects.map(&:name)
   end
 
+  def current?(state)
+    publicized_state_info[state].current?
+  end
+
+  def visited?(state)
+    publicized_state_info[state].visited?
+  end
+
   private
 
   def publicized_state_info

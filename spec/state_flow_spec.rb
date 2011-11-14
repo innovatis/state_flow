@@ -184,6 +184,13 @@ describe StateFlow do
       rr.requirements_met?.should be_false
     end
 
+    it 'can be told it is was visited' do
+      rr = StateFlow::RequirementsResult.new(:pending, ['Thing A', true], ['Thing B', false])
+      rr.should_not be_visited
+      rr.visited = true
+      rr.should be_visited
+    end
+
     it 'can be told it is the current state' do
       rr = StateFlow::RequirementsResult.new(:pending, ['Thing A', true], ['Thing B', false])
       rr.should_not be_current
@@ -228,6 +235,11 @@ describe StateFlow do
       klass.flow(aobject).state.should == :a
       klass.flow(bobject).state.should == :b
       klass.flow(cobject).state.should == :c
+    end
+
+    it 'knows the path of states it took to get there' do
+      object = stub(:b_requirement => true, :c_requirement => true)
+      klass.flow(object).state_path.should == [:a, :b, :c]
     end
 
     it 'can iterate over the states' do

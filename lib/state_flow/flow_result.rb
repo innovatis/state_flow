@@ -7,6 +7,9 @@ class StateFlow::FlowResult
     @flow = flow
     @object = object
     @state_info = calculate_state_info
+    state_path_objects.each do |state|
+      @state_info[state].visited = true
+    end
     @state_info[state_object].current = true
   end
 
@@ -15,20 +18,25 @@ class StateFlow::FlowResult
   end
 
   def state_object
-    @state_object ||= next_state_from(@flow.initial_state)
+    @state_object ||= state_path_objects.last
   end
 
   def each(&block)
     @state_info.each(&block)
   end
 
+  def state_path
+    state_path_objects.map(&:name)
+  end
+
   private
 
-  def next_state_from(state)
-    if nxt = valid_states_from(state).sort_by(&:priority).first
-      next_state_from(nxt)
+  def state_path_objects(visited = [@flow.initial_state])
+    return @state_path if @state_path
+    if nxt = valid_states_from(visited.last).sort_by(&:priority).first
+      state_path_objects(visited + [nxt])
     else
-      state
+      @state_path = visited
     end
   end
 

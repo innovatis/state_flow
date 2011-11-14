@@ -2,10 +2,11 @@ class StateFlow::RequirementsResult
   include Enumerable
 
   attr_reader :state_name
-  attr_accessor :current
+  attr_accessor :current, :visited
   def initialize(state_name, *pairs)
     @state_name = state_name
     @current = false
+    @visited = false
     @requirements = pairs
   end
 
@@ -18,6 +19,7 @@ class StateFlow::RequirementsResult
   end
 
   alias_method :current?, :current
+  alias_method :visited?, :visited
 
 end
 
